@@ -37,13 +37,8 @@ class ListAnnotation extends StatelessWidget {
                 return Dismissible(
                   key: UniqueKey(),
                   confirmDismiss: (DismissDirection direction) async {
-                    if (direction == DismissDirection.endToStart) {
-                      Navigator.of(context).push(
-                        TransitionsBuilder.createRoute(
-                          Information(annotationEntity: annotationStore.annotationEntity[index]),
-                        ),
-                      );                      
-                    } else {
+                    if (direction == DismissDirection.startToEnd) {
+                      
                       return await showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -120,32 +115,35 @@ class ListAnnotation extends StatelessWidget {
                       child: Icon(Icons.delete, color: Colors.red, size: 30),
                     ),
                   ),
-                  secondaryBackground: Container(
-                    color:  Colors.black,
-                    child: const Align(
-                      alignment: Alignment(0.9, 0),
-                      child: Icon(Icons.edit, color: Colors.blue, size: 30,),
-                    ),
-                  ),
+            
                   child: Padding(
                     padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                    child: Card(
-                      elevation: 8,
-                      shape: OutlineInputBorder( borderRadius: BorderRadius.circular(10.0), 
-                      borderSide: BorderSide.none),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextList(annotationStore.annotationEntity[index].text ?? ""),
-                            ],
+                    child: GestureDetector(
+                      onTap: (() {
+                         Navigator.of(context).push(
+                          TransitionsBuilder.createRoute(
+                            Information(annotationEntity: annotationStore.annotationEntity[index]),
                           ),
-                          TextList.date(DateTimeUsercase.formatDateWek(
-                              annotationStore.annotationEntity[index].dateText ?? "")),
-                        ],
+                        );  
+                      }),
+                      child: Card(
+                        elevation: 8,
+                        shape: OutlineInputBorder( borderRadius: BorderRadius.circular(10.0), 
+                        borderSide: BorderSide.none),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextList(annotationStore.annotationEntity[index].text ?? ""),
+                              ],
+                            ),
+                            TextList.date(DateTimeUsercase.formatDateWek(
+                                annotationStore.annotationEntity[index].dateText ?? "")),
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -24,25 +24,36 @@ class Information extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(66, 0, 0, 0),
         actions: [
-            TextButton(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 15.0),
-              child: Text(
-                    id != null ? 'Editar' :'Salvar',
-                    style: const TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'helvetica_neue_light',
-                      color: Colors.white
+            Padding(
+              padding: const EdgeInsets.only(top: 15.0, right: 15, bottom: 10),
+              child: TextButton(
+                style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: const BorderSide(color: Colors.white)
+                  )
+                )
+              ),
+              child:  Padding(
+                padding: const EdgeInsets.only(left: 20.0, right: 20),
+                child: Text(
+                      id != null ? 'EDITAR':'SALVAR',
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                        fontFamily: 'helvetica_neue_light',
+                        color: Colors.white
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-            ),
-            onPressed: () {
-                if (controller.validateInput(id, context)) {
-                    Navigator.of(context).pop();
-                  }
-            },
-          )
+              ),
+              onPressed: () {
+                  if (controller.validateInput(id, context)) {
+                      Navigator.of(context).pop();
+                    }
+              },
+          ),
+            )
         ],
       ),
       body: Padding(

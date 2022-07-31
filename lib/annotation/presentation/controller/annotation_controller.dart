@@ -29,14 +29,20 @@ class AnnotationController {
       this._updateAnnotationUserCase,
       this._annotationStore);
 
-  Future<void> getAnnotation() async {
+  Future<void> getAnnotation({String? value}) async {
     var result = await _getAnnotationUserCase.getAnnotation();
     result.fold((error) => ExceptionList().errMsg(error),
-        (sucess) => buildList(sucess));
+        (sucess) => buildList(sucess, value: value));
   }
 
-  buildList(List<AnnotationEntity> annotationEntity) {
-    _annotationStore.updateList(annotationEntity);
+  buildList(List<AnnotationEntity> annotationEntity, {String? value}) {
+    if (value != null) {
+      List<AnnotationEntity> annotationEntityFilter = annotationEntity.where((element) => element.text!.toLowerCase().contains(value)).toList();
+      _annotationStore.updateList(annotationEntityFilter);
+    } else {
+      _annotationStore.updateList(annotationEntity);
+    }
+    
   }
 
   bool validateInput(int? id, BuildContext context) {
@@ -90,10 +96,11 @@ class AnnotationController {
   }
 
   searchList(value){
-    if(value != ""){
-      buildList(_annotationStore.annotationEntity.where((element) => element.text!.toLowerCase().contains(value)).toList());
+    if (value != "") {
+      getAnnotation(value: value);
     } else {
-      getAnnotation();
+      getAnnotation(value: null);
     }
+    
   }
 }
